@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F4F1EA">
+<title>Anchor</title>
+
+<style>
+:root{
+  --bg:#F4F1EA;
+  --card:#FFFDF8;
+  --text:#272722;
+  --muted:#79776F;
+  --line:#DDD8CD;
+  --green:#718F74;
+  --yellow:#B98D4D;
+  --red:#A76666;
+  --dark:#30312D;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+.app{
+  max-width:560px;
+  margin:auto;
+  padding:32px 18px 60px;
+}
+
+h1{
+  font-size:34px;
+  line-height:1.05;
+  margin:6px 0 8px;
+}
+
+h2{
+  font-size:26px;
+}
+
+.small-title{
+  font-size:12px;
+  letter-spacing:2px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+.muted{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.view{display:none}
+.view.active{display:block}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  margin:12px 0;
+}
+
+.state{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-align:left;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+  margin:12px 0;
+  background:var(--card);
+  color:var(--text);
+}
+
+.state span:nth-child(2){
+  flex:1;
+}
+
+.state strong{
+  display:block;
+  font-size:17px;
+}
+
+.state small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.dot{
+  width:13px;
+  height:13px;
+  border-radius:50%;
+}
+
+.green{background:var(--green)}
+.yellow{background:var(--yellow)}
+.red{background:var(--red)}
+
+.percent{
+  width:100%;
+  padding:17px;
+  border-radius:18px;
+  border:1px dashed #AAA79D;
+  background:transparent;
+  text-align:left;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.percent small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  font-weight:400;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+.primary{
+  width:100%;
+  border:none;
+  border-radius:16px;
+  background:var(--dark);
+  color:white;
+  padding:15px;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.secondary{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--card);
+  color:var(--text);
+  padding:14px;
+  margin-top:9px;
+}
+
+.back{
+  background:none;
+  border:none;
+  padding:0;
+  margin-bottom:28px;
+  color:var(--muted);
+}
+
+label{
+  display:block;
+  font-weight:650;
+  margin:20px 0;
+}
+
+input[type=range]{
+  width:100%;
+  margin-top:10px;
+}
+
+textarea,input[type=text],input[type=tel],select{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:white;
+  font:inherit;
+  margin-top:8px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
+.grid3 button{
+  border:1px solid var(--line);
+  padding:14px 4px;
+  border-radius:15px;
+  background:var(--card);
+}
+
+.tool-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.tool-grid button{
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:16px;
+  padding:15px;
+}
+
+.emergency{
+  border-left:4px solid var(--red);
+  background:#F4EAEA;
+}
+
+.history{
+  font-size:14px;
+}
+
+.pill{
+  display:inline-block;
+  padding:6px 9px;
+  font-size:12px;
+  border-radius:100px;
+  background:#ECE7DD;
+  color:var(--muted);
+}
+
+input[type=checkbox]{
+  transform:scale(1.3);
+  margin-right:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<section id="home" class="view active">
+
+  <div class="small-title">ANCHOR</div>
+  <h1 id="hello">How are you today?</h1>
+  <p class="muted">Pick the closest answer. You don't need to explain anything first.</p>
+
+  <button class="state" onclick="show('checkin')">
+    <span class="dot green"></span>
+    <span>
+      <strong>I'm functioning</strong>
+      <small>Check in and protect what's working.</small>
+    </span>
+    <b>›</b>
+  </button>
+
+  <button class="state" onclick="show('slipping')">
+    <span class="dot yellow"></span>
+    <span>
+      <strong>I'm slipping</strong>
+      <small>Give me one small action.</small>
+    </span>
+    <b>›</b>
+  </button>
+
+  <button class="state" onclick="show('support')">
+    <span class="dot red"></span>
+    <span>
+      <strong>I need help getting through this</strong>
+      <small>Reduce decisions and use my support plan.</small>
+    </span>
+    <b>›</b>
+  </button>
+
+  <button class="percent" onclick="startTwoPercent()">
+    2% Mode
+    <small>I have almost no energy. Tell me only what to do next.</small>
+  </button>
+
+  <div class="card" id="summary">
+    <div class="small-title">TODAY</div>
+    <strong>No check-in yet.</strong>
+  </div>
+
+  <div class="tool-grid">
+    <button onclick="show('untangle')">Untangle my brain</button>
+    <button onclick="showHistory()">My pattern</button>
+    <button onclick="show('minimum')">Minimum Day</button>
+    <button onclick="showSettings()">Personalize</button>
+  </div>
+
+</section>
+
+
+<section id="checkin" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">30 SECOND CHECK-IN</div>
+<h2>Notice. Don't judge.</h2>
+
+<label>
+Mood: <span id="moodValue">5</span>/10
+<input id="mood" type="range" min="0" max="10" value="5">
+</label>
+
+<label>
+Energy: <span id="energyValue">5</span>/10
+<input id="energy" type="range" min="0" max="10" value="5">
+</label>
+
+<label>
+Anxiety: <span id="anxietyValue">5</span>/10
+<input id="anxiety" type="range" min="0" max="10" value="5">
+</label>
+
+<label>
+Functioning: <span id="functionValue">5</span>/10
+<input id="functioning" type="range" min="0" max="10" value="5">
+</label>
+
+<label>
+Sleep
+<select id="sleep">
+<option>Good</option>
+<option selected>Okay</option>
+<option>Poor</option>
+<option>Too much</option>
+<option>Too little</option>
+</select>
+</label>
+
+<label>
+<input id="medication" type="checkbox">
+Medication taken as prescribed today
+</label>
+
+<button class="primary" onclick="saveCheckin()">Save check-in</button>
+
+</section>
+
+
+<section id="slipping" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">I'M SLIPPING</div>
+
+<h2>We only need one move.</h2>
+
+<p class="muted">How much capacity do you have right now?</p>
+
+<div class="grid3">
+<button onclick="activation('tiny')">Tiny</button>
+<button onclick="activation('small')">Small</button>
+<button onclick="activation('medium')">Medium</button>
+</div>
+
+<div id="activationBox"></div>
+
+</section>
+
+
+<section id="twoPercent" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">2% MODE</div>
+
+<h2>You don't have to fix the day.</h2>
+
+<p class="muted">
+Only do the instruction currently on the screen.
+</p>
+
+<div class="card" id="twoPercentBox"></div>
+
+</section>
+
+
+<section id="support" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">SUPPORT MODE</div>
+
+<h2>Reduce decisions.</h2>
+
+<div class="card">
+<strong>1. Get through the next 10 minutes.</strong>
+<p class="muted">
+Sit somewhere safer or near other people. Drink some water. Turn on a light. Avoid making major decisions right now.
+</p>
+</div>
+
+<div class="card">
+<strong>2. Contact your person.</strong>
+<p id="supportPersonText" class="muted">
+You haven't added a support person yet.
+</p>
+<button class="primary" onclick="contactSupport()">Contact them</button>
+</div>
+
+<div class="card">
+<strong>3. Make the environment safer.</strong>
+<p class="muted">
+If you're feeling unsafe, move away from anything you could use to hurt yourself and stay around another person.
+</p>
+</div>
+
+<div class="card emergency">
+<strong>If you may act on thoughts of harming yourself or cannot keep yourself safe:</strong>
+<p class="muted">
+Use emergency services or go to the nearest emergency department now. Anchor isn't emergency care.
+</p>
+</div>
+
+</section>
+
+
+<section id="untangle" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">UNTANGLE MY BRAIN</div>
+
+<h2>Dump the mess here.</h2>
+
+<textarea id="brainDump" rows="7" placeholder="Write everything that's crowding your head..."></textarea>
+
+<button class="primary" onclick="untangle()">Untangle</button>
+
+<div id="untangleResult"></div>
+
+</section>
+
+
+<section id="minimum" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">MINIMUM DAY</div>
+
+<h2>If today is difficult, this is enough.</h2>
+
+<div class="card">
+<label><input type="checkbox"> Get out of bed</label>
+<label><input type="checkbox"> Basic hygiene</label>
+<label><input type="checkbox"> Take prescribed medication</label>
+<label><input type="checkbox"> Eat something</label>
+<label><input type="checkbox"> Drink water</label>
+<label><input type="checkbox"> Open curtains / get daylight</label>
+<label><input type="checkbox"> Five minutes of movement</label>
+<label><input type="checkbox"> One meaningful responsibility</label>
+</div>
+
+<p class="muted">
+Finishing the whole list isn't the goal. This page defines the floor, not the ceiling.
+</p>
+
+</section>
+
+
+<section id="history" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">MY PATTERN</div>
+
+<h2>Recent check-ins</h2>
+
+<div id="historyBox"></div>
+
+</section>
+
+
+<section id="settings" class="view">
+
+<button class="back" onclick="show('home')">← Home</button>
+
+<div class="small-title">PERSONALIZE</div>
+
+<h2>Make Anchor yours.</h2>
+
+<label>
+Your name
+<input type="text" id="nameInput">
+</label>
+
+<label>
+Support person's name
+<input type="text" id="supportName">
+</label>
+
+<label>
+Support phone number
+<input type="tel" id="supportPhone">
+</label>
+
+<label>
+My personal minimum-day anchor
+<input type="text" id="anchorInput"
+placeholder="Example: prayer + shower + five minutes outside">
+</label>
+
+<button class="primary" onclick="saveSettings()">Save</button>
+
+<p class="muted">
+Everything in this version stays only inside this browser using local storage.
+</p>
+
+</section>
+
+</div>
+
+
+<script>
+
+const views = document.querySelectorAll(".view");
+
+function show(id){
+  views.forEach(v=>v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+["mood","energy","anxiety","functioning"].forEach(id=>{
+  document.getElementById(id).oninput=e=>{
+    const output=id==="functioning"?"functionValue":id+"Value";
+    document.getElementById(output).innerText=e.target.value;
+  }
+});
+
+
+function read(key,fallback=[]){
+  try{
+    return JSON.parse(localStorage.getItem(key)) || fallback;
+  }catch{
+    return fallback;
+  }
+}
+
+function write(key,value){
+  localStorage.setItem(key,JSON.stringify(value));
+}
+
+
+function saveCheckin(){
+
+  const data={
+    date:new Date().toISOString(),
+    mood:+mood.value,
+    energy:+energy.value,
+    anxiety:+anxiety.value,
+    functioning:+functioning.value,
+    sleep:sleep.value,
+    medication:medication.checked
+  };
+
+  let entries=read("anchor-checkins");
+
+  entries.unshift(data);
+
+  write("anchor-checkins",entries.slice(0,100));
+
+  updateSummary();
+
+  show("home");
+}
+
+
+function updateSummary(){
+
+  const entries=read("anchor-checkins");
+
+  if(!entries.length) return;
+
+  const e=entries[0];
+
+  summary.innerHTML=`
+    <div class="small-title">LAST CHECK-IN</div>
+    <strong>Mood ${e.mood}/10 · Energy ${e.energy}/10</strong>
+    <p class="muted">
+      Anxiety ${e.anxiety}/10 · Functioning ${e.functioning}/10
+    </p>
+    <span class="pill">stored locally</span>
+  `;
+}
+
+
+const tasks={
+
+tiny:[
+["Three sips of water","That's the whole task."],
+["Feet on the floor","Sit up and place both feet down for ten seconds."],
+["Open the curtains","Give your brain one clear daytime signal."],
+["Wash your face","No shower required."],
+["Stand for thirty seconds","Nothing else required."]
+],
+
+small:[
+["Walk for five minutes","Inside counts."],
+["Clear one surface","Only one desk, chair, or table."],
+["Take a quick shower","It doesn't need to become a full routine."],
+["Eat something","Choose the easiest useful option."],
+["Message one person","You can simply say: I'm low today."]
+],
+
+medium:[
+["Ten-minute walk","No pace target."],
+["Ten-minute study sprint","Choose one tiny academic task."],
+["Reset one small area","Trash, dishes, clothes. Then stop."],
+["Ten minutes of movement","Walk, stretch, or easy exercise."],
+["Prepare one thing for tomorrow","Make your next action easier."]
+]
+
+};
+
+
+function activation(level){
+
+  const options=tasks[level];
+
+  const item=options[Math.floor(Math.random()*options.length)];
+
+  activationBox.innerHTML=`
+    <div class="card">
+      <div class="small-title">ONE MOVE</div>
+      <h2>${item[0]}</h2>
+      <p class="muted">${item[1]}</p>
+      <button class="primary" onclick="activationDone()">I did it</button>
+      <button class="secondary" onclick="activation('${level}')">Give me another</button>
+    </div>
+  `;
+}
+
+
+function activationDone(){
+
+  activationBox.innerHTML=`
+    <div class="card">
+      <div class="small-title">DONE</div>
+      <h2>That counts.</h2>
+      <p class="muted">
+        You weren't trying to fix everything. You changed direction once.
+      </p>
+      <button class="primary" onclick="show('home')">Back home</button>
+    </div>
+  `;
+}
+
+
+const twoSteps=[
+["Feet on floor","Sit up. Put both feet down."],
+["Water","Take three sips."],
+["Light","Open curtains or turn on a bright light."],
+["Bathroom","Brush your teeth or wash your face. Pick one."],
+["Body","Stand for thirty seconds."],
+["One anchor","Do the smallest meaningful thing for today."]
+];
+
+let step=0;
+
+
+function startTwoPercent(){
+  step=0;
+  show("twoPercent");
+  renderTwoPercent();
+}
+
+
+function renderTwoPercent(){
+
+  const item=twoSteps[step];
+
+  twoPercentBox.innerHTML=`
+    <div class="small-title">
+      STEP ${step+1} OF ${twoSteps.length}
+    </div>
+
+    <h2>${item[0]}</h2>
+
+    <p class="muted">${item[1]}</p>
+
+    <button class="primary" onclick="nextTwoPercent()">
+      ${step===twoSteps.length-1?"I'm done":"Done — next"}
+    </button>
+
+    ${step>0?`
+    <button class="secondary" onclick="show('home')">
+      Stop here. This is enough.
+    </button>`:""}
+  `;
+}
+
+
+function nextTwoPercent(){
+
+  if(step<twoSteps.length-1){
+    step++;
+    renderTwoPercent();
+  }
+
+  else{
+
+    twoPercentBox.innerHTML=`
+      <div class="small-title">ENOUGH</div>
+
+      <h2>You finished the 2% plan.</h2>
+
+      <p class="muted">
+        You don't need to earn rest by completing the rest of the day.
+      </p>
+
+      <button class="primary" onclick="show('home')">
+        Back home
+      </button>
+    `;
+  }
+}
+
+
+function untangle(){
+
+  const text=brainDump.value.trim();
+
+  if(!text) return;
+
+  let pieces=text
+    .split(/\n|,| and | then | but /i)
+    .map(x=>x.trim())
+    .filter(Boolean);
+
+  let first=pieces[0] || text;
+
+  untangleResult.innerHTML=`
+    <div class="card">
+
+      <div class="small-title">FIRST PIECE</div>
+
+      <h2>${escapeHTML(first)}</h2>
+
+      <p class="muted">
+        Don't solve the whole problem.
+
+        Ask yourself:
+
+        <strong>What action would make this 5% less stuck?</strong>
+      </p>
+
+    </div>
+  `;
+}
+
+
+function escapeHTML(s){
+
+  return s.replace(/[&<>"']/g,c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[c]));
+}
+
+
+function showHistory(){
+
+  const entries=read("anchor-checkins");
+
+  if(!entries.length){
+
+    historyBox.innerHTML=`
+      <div class="card">
+        <strong>No check-ins yet.</strong>
+        <p class="muted">
+          There are no streaks or grades here.
+        </p>
+      </div>
+    `;
+  }
+
+  else{
+
+    historyBox.innerHTML=entries.slice(0,14).map(e=>`
+
+      <div class="card history">
+
+        <strong>
+          ${new Date(e.date).toLocaleDateString()}
+        </strong>
+
+        <p class="muted">
+          Mood ${e.mood}/10<br>
+          Energy ${e.energy}/10<br>
+          Anxiety ${e.anxiety}/10<br>
+          Functioning ${e.functioning}/10<br>
+          Sleep: ${e.sleep}
+        </p>
+
+      </div>
+
+    `).join("");
+  }
+
+  show("history");
+}
+
+
+function showSettings(){
+
+  const s=read("anchor-settings",{});
+
+  nameInput.value=s.name || "";
+  supportName.value=s.supportName || "";
+  supportPhone.value=s.supportPhone || "";
+  anchorInput.value=s.anchor || "";
+
+  show("settings");
+}
+
+
+function saveSettings(){
+
+  const s={
+    name:nameInput.value.trim(),
+    supportName:supportName.value.trim(),
+    supportPhone:supportPhone.value.trim(),
+    anchor:anchorInput.value.trim()
+  };
+
+  write("anchor-settings",s);
+
+  applySettings();
+
+  show("home");
+}
+
+
+function applySettings(){
+
+  const s=read("anchor-settings",{});
+
+  hello.innerText=s.name
+  ?`How are you today, ${s.name}?`
+  :"How are you today?";
+
+  supportPersonText.innerText=s.supportName
+  ?`${s.supportName} is your saved support person.`
+  :"You haven't added a support person yet.";
+}
+
+
+function contactSupport(){
+
+  const s=read("anchor-settings",{});
+
+  if(!s.supportPhone){
+
+    alert("Add a support phone number in Personalize first.");
+
+    showSettings();
+
+    return;
+  }
+
+  window.location.href=`tel:${s.supportPhone}`;
+}
+
+
+applySettings();
+updateSummary();
+
+</script>
+
+</body>
+</html>
